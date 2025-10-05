@@ -1,6 +1,7 @@
-import Image from "next/image";
 import { HeroSection } from "../components/hero-section";
+import { ExperienceTimeline } from "../components/experience-timeline";
 import { BackgroundPattern } from "../components/background-pattern";
+import { ProjectsSection } from "../components/projects-section";
 
 export default function Home() {
   return (
@@ -9,7 +10,8 @@ export default function Home() {
       
       <div className="relative z-10">
         <HeroSection />
-        
+        <ExperienceTimeline />
+        <ProjectsSection />
       </div>
     </div>
   );

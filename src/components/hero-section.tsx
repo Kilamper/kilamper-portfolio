@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const HeroSection = () => {
   return (
     <section className="min-h-screen flex items-center justify-center px-6 py-20 relative overflow-hidden">
@@ -54,6 +56,13 @@ export const HeroSection = () => {
         <div
           className="flex justify-center lg:justify-end"
         >
+            <Image
+                src="https://i.postimg.cc/Hsv4B8bR/profile-image-transparent.png"
+                alt="Kilian Jesús Armas Pérez"
+                width={400}
+                height={400}
+                className=""
+            />
         </div>
       </div>
     </section>

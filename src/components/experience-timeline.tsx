@@ -1,0 +1,104 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import Image from "next/image";
+
+interface Experience {
+  role: string;
+  company: string;
+  period: string;
+  description: string;
+  logo: string;
+}
+
+const experiences: Experience[] = [
+  {
+    role: "Desarrollador Full Stack",
+    company: "Grupo ARI",
+    period: "Septiembre 2025 - Presente",
+    description: "Desarrollo de aplicaciones web escalables con React y Node.js. Liderazgo de equipo de 5 desarrolladores.",
+    logo: "https://i.postimg.cc/zfj7rtsZ/logo-grupo-ari.jpg"
+  },
+  {
+    role: "Desarrollador Web",
+    company: "Grupo ARI",
+    period: "Octubre 2024 - Enero 2025",
+    description: "Implementación de interfaces modernas y responsive. Trabajo con React, TypeScript y Tailwind CSS.",
+    logo: "https://i.postimg.cc/zfj7rtsZ/logo-grupo-ari.jpg"
+  }
+];
+
+function TimelineItem({ experience, index }: { experience: Experience; index: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: -50 }}
+      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="relative pl-8 pb-12 last:pb-0"
+    >
+      {/* Línea vertical */}
+      <div className="absolute left-[11px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#4522a0] to-transparent" />
+      
+      {/* Punto en la línea */}
+      <div className="absolute left-0 top-2 w-6 h-6 rounded-full bg-[#4522a0] border-4 border-background flex items-center justify-center">
+        <svg className="w-3 h-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2l-10 10h3v10h14v-10h3z" />
+        </svg>
+      </div>
+
+      {/* Contenido */}
+      <div className="bg-card border border-border rounded-xl p-6 hover:border-[#4522a0] transition-colors duration-300">
+        <div className="flex gap-4">
+          {/* Logo de la empresa */}
+          <div className="flex-shrink-0">
+            <div className="w-16 h-16 rounded-lg overflow-hidden bg-secondary border border-border">
+              <Image src={experience.logo} alt={`${experience.company} logo`} width={64} height={64} className="object-cover" />
+            </div>
+          </div>
+
+          {/* Información */}
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+              <h3 className="text-xl text-foreground">{experience.role}</h3>
+              <span className="text-sm text-[#a78bfa] whitespace-nowrap">{experience.period}</span>
+            </div>
+            <p className="text-[#a78bfa] mb-2">{experience.company}</p>
+            <p className="text-muted-foreground">{experience.description}</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export function ExperienceTimeline() {
+  return (
+    <section className="py-20 px-6">
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl lg:text-5xl mb-4">
+            Experiencia <span className="text-[#a78bfa]">Laboral</span>
+          </h2>
+          <p className="text-muted-foreground text-lg">Mi trayectoria profesional en el desarrollo de software</p>
+        </motion.div>
+
+        <div className="relative">
+          {experiences.map((experience, index) => (
+            <TimelineItem key={index} experience={experience} index={index} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
