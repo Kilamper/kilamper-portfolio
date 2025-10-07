@@ -2,6 +2,10 @@
 
 import { motion } from "framer-motion";
 
+import {
+    IconDeviceGamepad
+} from "@tabler/icons-react";
+
 export function BackgroundPattern() {
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
@@ -158,7 +162,7 @@ export function BackgroundPattern() {
         }}
         className="absolute bottom-[20%] left-[35%] opacity-[0.04]"
       >
-        <i className="fas fa-gamepad"></i>
+        <IconDeviceGamepad className="w-6 h-6" />
       </motion.div>
 
       {/* Símbolos de lenguajes de programación */}

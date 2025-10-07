@@ -1,0 +1,67 @@
+{
+    "projects": [
+        {
+            "title": "PhobiaXperience",
+            "description": "Aplicación en Unity que combina entornos virtuales y retroalimentación háptica para apoyar la terapia de fobias de forma inmersiva.",
+            "image": "https://i.postimg.cc/CKN7gP3p/Teslasuit.webp",
+            "technologies": ["Unity", "C#", "Meta XR", "Teslasuit"],
+            "githubUrl": "https://github.com/Kilamper/PhobiaXperience",
+            "demoUrl": "",
+            "downloadUrl": "https://github.com/Kilamper/PhobiaXperience/releases/tag/v1.0.1"
+        },
+        {
+            "title": "Mapa Guaguas Municipales",
+            "description": "Aplicación web que muestra las paradas y rutas de las Guaguas Municipales de Las Palmas de Gran Canaria.",
+            "image": "https://i.postimg.cc/bY3y6BVx/Bus-Map.webp",
+            "technologies": ["Three.js", "JavaScript", "HTML", "OpenStreetMap"],
+            "githubUrl": "https://github.com/Kilamper/Mapa-Guaguas-Municipales",
+            "demoUrl": "",
+            "downloadUrl": ""
+        },
+        {
+            "title": "StellarDive",
+            "description": "Experiencia interactiva que simula el sistema solar con efectos de movimiento para transmitir la sensación de viajar por el cosmos.",
+            "image": "https://i.postimg.cc/76SCGnq3/Solar-System.webp",
+            "technologies": ["Three.js", "JavaScript", "HTML"],
+            "githubUrl": "https://github.com/Kilamper/StellarDive",
+            "demoUrl": "",
+            "downloadUrl": ""
+        },
+        {
+            "title": "DBreeze",
+            "description": "Aplicación que permite conectarse a bases de datos MySQL, SQLite y LibSQL para gestionar y visualizar datos de manera eficiente.",
+            "image": "https://i.postimg.cc/bJqGn2dS/Databases.webp",
+            "technologies": ["React", "MySQL", "SQLite", "LibSQL"],
+            "githubUrl": "https://github.com/Kilamper/DBreeze",
+            "demoUrl": "",
+            "downloadUrl": ""
+        },
+        {
+            "title": "TextSnap",
+            "description": "Aplicación móvil que permite extraer texto de imágenes de forma rápida mediante reconocimiento óptico de caracteres (OCR).",
+            "image": "https://i.postimg.cc/bN53Rqxq/ocr-text-extractor.webp",
+            "technologies": ["Kotlin", "Android Studio", "Firebase", "OCR"],
+            "githubUrl": "https://github.com/Kilamper/Text-Extractor",
+            "demoUrl": "",
+            "downloadUrl": "https://github.com/Kilamper/Text-Extractor/releases/tag/v1.0.0"
+        },
+        {
+            "title": "Image Viewer",
+            "description": "Visor de imágenes ligero y rápido con soporte para múltiples formatos que sigue el patrón de diseño Model-View-Controller (MVC).",
+            "image": "https://i.postimg.cc/3wz9mvqn/image-viewer.webp",
+            "technologies": ["Java", "Model-View-Controller (MVC)"],
+            "githubUrl": "https://github.com/Kilamper/image-viewer-mvc",
+            "demoUrl": "",
+            "downloadUrl": "https://github.com/Kilamper/image-viewer-mvc/releases/tag/v1.0.1"
+        },
+        {
+            "title": "Money Calculator",
+            "description": "Calculadora de divisas que permite convertir entre diferentes monedas utilizando tasas de cambio según la fecha introducida.",
+            "image": "https://i.postimg.cc/X7cxTty5/world-currency-rates.webpp",
+            "technologies": ["Java", "Fixer API"],
+            "githubUrl": "https://github.com/Kilamper/money-calculator",
+            "demoUrl": "",
+            "downloadUrl": "https://github.com/Kilamper/money-calculator/releases/tag/v1.0.1"
+        }
+    ]
+}

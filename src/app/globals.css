@@ -9,6 +9,8 @@
   --primary-light: #c4b5fd;
   --secondary: #64748b;
   --accent: #8b5cf6;
+  --card-background: #1a1a1a;
+  --outline: #2e2e2e;
 }
 
 @theme inline {
@@ -20,8 +22,11 @@
   --color-primary-light: var(--primary-light);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
+  --color-card: var(--card-background);
+  --color-outline: var(--outline);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-outfit: var(--font-outfit);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,11 +39,13 @@
     --primary-light: #c4b5fd;
     --secondary: #64748b;
     --accent: #8b5cf6;
+    --card-background: #1a1a1a;
+    --outline: #2e2e2e;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-outfit), Arial, Helvetica, sans-serif;
 }

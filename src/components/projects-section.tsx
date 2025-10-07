@@ -1,8 +1,16 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
+
+import {
+    IconBrandGithub,
+    IconExternalLink,
+    IconDownload
+} from "@tabler/icons-react";
+
+import projectsData from "../../data/projects.json";
 
 interface Project {
   title: string;
@@ -11,34 +19,11 @@ interface Project {
   technologies: string[];
   githubUrl: string;
   demoUrl: string;
+  downloadUrl: string;
 }
 
-const projects: Project[] = [
-  {
-    title: "PhobiaXperience",
-    description: "Plataforma completa de comercio electrónico con pasarela de pagos, gestión de inventario y panel de administración.",
-    image: "https://i.postimg.cc/CKN7gP3p/Teslasuit.webp",
-    technologies: ["Unity", "C#", "VR", "Teslasuit"],
-    githubUrl: "https://github.com/Kilamper/PhobiaXperience",
-    demoUrl: ""
-  },
-  {
-    title: "Task Management App",
-    description: "Aplicación móvil para gestión de tareas y proyectos con sincronización en tiempo real y colaboración en equipo.",
-    image: "https://images.unsplash.com/photo-1658953229625-aad99d7603b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    technologies: ["React Native", "Firebase", "TypeScript"],
-    githubUrl: "https://github.com",
-    demoUrl: "https://example.com"
-  },
-  {
-    title: "Portfolio Designer",
-    description: "Herramienta web para crear portfolios profesionales con templates personalizables y exportación a múltiples formatos.",
-    image: "https://images.unsplash.com/photo-1669062897193-f8a4215c2033?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800",
-    technologies: ["Next.js", "Tailwind CSS", "Prisma", "PostgreSQL"],
-    githubUrl: "https://github.com",
-    demoUrl: "https://example.com"
-  }
-];
+const allProjects: Project[] = projectsData.projects;
+
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const ref = useRef(null);
@@ -50,7 +35,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-[#4522a0] transition-all duration-300"
+      className="group bg-card border border-border rounded-2xl overflow-hidden border-outline hover:border-[#4522a0] transition-all duration-300"
     >
       {/* Imagen del proyecto */}
       <div className="relative h-56 overflow-hidden">
@@ -72,7 +57,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         {/* Tecnologías */}
         <div className="flex flex-wrap gap-2">
           {project.technologies.map((tech, i) => (
-            <span key={i} className="px-3 py-1 rounded-full text-sm bg-primary-darker/10 text-primary hover:bg-primary-darker/20 transition-colors duration-200">
+            <span key={i} className="px-3 py-1 rounded-full text-xs bg-primary-darker/10 text-primary hover:bg-primary-darker/20 transition-colors duration-200">
               {tech}
             </span>
           ))}
@@ -81,17 +66,28 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         {/* Enlaces */}
         <div className="flex gap-3 pt-2">
             <button
-                className="flex-1 border-[#4522a0] text-[#a78bfa] hover:bg-[#4522a0] hover:text-white"
+                className="flex border-[#4522a0] text-[#a78bfa] hover:bg-[#4522a0] hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
                 onClick={() => window.open(project.githubUrl, '_blank')}
             >
-                <i className="fa-brands fa-github">GitHub</i>
+                <IconBrandGithub className="w-5 h-5" />
+                Código
             </button>
+            {project.demoUrl && (
             <button
-                className="flex-1 border-[#4522a0] text-[#a78bfa] hover:bg-[#4522a0] hover:text-white"
+                className="flex border-[#4522a0] text-[#a78bfa] hover:bg-[#4522a0] hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
                 onClick={() => window.open(project.demoUrl, '_blank')}
             >
-                <i className="fa-solid fa-arrow-up-right-from-square">Demo</i>
-            </button>
+                <IconExternalLink className="w-5 h-5" />
+                Demo
+            </button>)}
+            {project.downloadUrl && (
+            <button
+                className="flex border-[#4522a0] text-[#a78bfa] hover:bg-[#4522a0] hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
+                onClick={() => window.open(project.downloadUrl, '_blank')}
+            >
+                <IconDownload className="w-5 h-5" />
+                Descarga
+            </button>)}
         </div>
       </div>
     </motion.div>
@@ -99,8 +95,45 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 }
 
 export function ProjectsSection() {
+  const [selectedProjects, setSelectedProjects] = useState<Project[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  // Función para seleccionar proyectos: el primero + 2 aleatorios del resto
+  const selectProjects = () => {
+    if (allProjects.length === 0) return [];
+    
+    // Siempre incluir el primer proyecto
+    const firstProject = allProjects[0];
+    
+    // Si solo hay un proyecto, devolver solo ese
+    if (allProjects.length === 1) return [firstProject];
+    
+    // Obtener el resto de proyectos (excluyendo el primero)
+    const remainingProjects = allProjects.slice(1);
+    
+    // Si hay 2 o menos proyectos restantes, tomar todos
+    if (remainingProjects.length <= 2) {
+      return [firstProject, ...remainingProjects];
+    }
+    
+    // Seleccionar 2 proyectos aleatorios del resto
+    const shuffled = [...remainingProjects].sort(() => 0.5 - Math.random());
+    const randomProjects = shuffled.slice(0, 2);
+    
+    return [firstProject, ...randomProjects];
+  };
+
+  useEffect(() => {
+    // Marcar que estamos en el cliente y seleccionar proyectos
+    setIsClient(true);
+    setSelectedProjects(selectProjects());
+  }, []);
+
+  // Durante SSR, mostrar solo el primer proyecto para evitar hydration mismatch
+  const displayProjects = isClient ? selectedProjects : allProjects.slice(0, 1);
+
   return (
-    <section className="py-20 px-6 bg-secondary/30">
+    <section className="py-20 px-6 bg-secondary/15">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -116,8 +149,8 @@ export function ProjectsSection() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} />
+          {displayProjects.map((project, index) => (
+            <ProjectCard key={`${project.title}-${index}`} project={project} index={index} />
           ))}
         </div>
       </div>

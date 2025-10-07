@@ -1,4 +1,10 @@
+"use client";
+
 import Image from "next/image";
+
+import {
+    IconMail
+} from "@tabler/icons-react";
 
 export const HeroSection = () => {
   return (
@@ -36,19 +42,25 @@ export const HeroSection = () => {
               href="https://www.linkedin.com/in/kilamper/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 rounded-lg hover:bg-primary-darker transition-colors duration-300"
+              className="p-3 rounded-lg hover:bg-primary-darker transition-colors duration-300 text-center flex"
             >
-              <i className="fab fa-linkedin-in text-2xl"></i>
+              <i className="fab fa-linkedin-in text-2xl w-6 h-6"></i>
             </a>
             <a
               href="https://github.com/Kilamper"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 rounded-lg hover:bg-primary-darker transition-colors duration-300"
+              className="p-3 rounded-lg hover:bg-primary-darker transition-colors duration-300 text-center flex"
             >
-              <i className="fab fa-github text-2xl"></i>
+              <i className="fab fa-github text-2xl w-6 h-6"></i>
             </a>
-            
+            <a
+              href="mailto:kilanper.dev@outlook.es"
+              className="bg-primary-darker text-white px-5 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300 font-semibold text-center flex"
+            >
+              <IconMail className="mr-2 text-xl w-6 h-6" />
+              Contáctame
+            </a>
           </div>
         </div>
 
@@ -59,9 +71,9 @@ export const HeroSection = () => {
             <Image
                 src="https://i.postimg.cc/Hsv4B8bR/profile-image-transparent.png"
                 alt="Kilian Jesús Armas Pérez"
-                width={400}
-                height={400}
-                className=""
+                width={500}
+                height={500}
+                className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[600px] object-cover shadow-2xl"
             />
         </div>
       </div>

@@ -4,6 +4,8 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 
+import experienceData from "../../data/experience.json";
+
 interface Experience {
   role: string;
   company: string;
@@ -12,22 +14,7 @@ interface Experience {
   logo: string;
 }
 
-const experiences: Experience[] = [
-  {
-    role: "Desarrollador Full Stack",
-    company: "Grupo ARI",
-    period: "Septiembre 2025 - Presente",
-    description: "Desarrollo de aplicaciones web escalables con React y Node.js. Liderazgo de equipo de 5 desarrolladores.",
-    logo: "https://i.postimg.cc/zfj7rtsZ/logo-grupo-ari.jpg"
-  },
-  {
-    role: "Desarrollador Web",
-    company: "Grupo ARI",
-    period: "Octubre 2024 - Enero 2025",
-    description: "Implementación de interfaces modernas y responsive. Trabajo con React, TypeScript y Tailwind CSS.",
-    logo: "https://i.postimg.cc/zfj7rtsZ/logo-grupo-ari.jpg"
-  }
-];
+const experiences: Experience[] = experienceData.experience;
 
 function TimelineItem({ experience, index }: { experience: Experience; index: number }) {
   const ref = useRef(null);
@@ -52,11 +39,11 @@ function TimelineItem({ experience, index }: { experience: Experience; index: nu
       </div>
 
       {/* Contenido */}
-      <div className="bg-card border border-border rounded-xl p-6 hover:border-[#4522a0] transition-colors duration-300">
+      <div className="bg-card border border-border rounded-xl p-6 border-outline hover:border-[#4522a0] transition-colors duration-300">
         <div className="flex gap-4">
           {/* Logo de la empresa */}
           <div className="flex-shrink-0">
-            <div className="w-16 h-16 rounded-lg overflow-hidden bg-secondary border border-border">
+            <div className="w-16 h-16 rounded-lg overflow-hidden bg-white border border-border">
               <Image src={experience.logo} alt={`${experience.company} logo`} width={64} height={64} className="object-cover" />
             </div>
           </div>
