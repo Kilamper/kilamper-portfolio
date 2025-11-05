@@ -23,7 +23,7 @@ export function AboutSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl mb-4">
-            Sobre <span className="text-[#a78bfa]">Mí</span>
+            Sobre <span className="text-primary">Mí</span>
           </h2>
           <p className="text-muted-foreground text-lg">Conoce más sobre mi historia y pasiones</p>
         </motion.div>
@@ -37,9 +37,9 @@ export function AboutSection() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#4522a0] to-[#a78bfa] rounded-3xl blur-3xl opacity-20" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-darker to-primary rounded-3xl blur-3xl opacity-20" />
             <Image
-              src="https://i.postimg.cc/Hsv4B8bR/profile-image-transparent.png"
+              src="https://i.postimg.cc/MHYWtH8x/about-image.png"
               width={500}
               height={500}
               alt="About me"
@@ -57,47 +57,45 @@ export function AboutSection() {
           >
             <div className="space-y-4">
               <p className="text-lg text-foreground leading-relaxed">
-                Soy un desarrollador apasionado por crear experiencias digitales que marquen la diferencia. 
-                Con más de 5 años de experiencia en el desarrollo web y móvil, he tenido la oportunidad de 
-                trabajar en proyectos diversos que van desde startups innovadoras hasta empresas consolidadas.
+                Desde que empecé a programar, descubrí lo mucho que disfruto creando cosas desde cero y viendo cómo una idea puede transformarse en algo funcional. Me gusta enfrentarme a nuevos retos, entender cómo funcionan las cosas y buscar siempre la mejor forma de hacerlas. La programación, para mí, es una forma de aprender constantemente y de mejorar con cada línea de código.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Mi enfoque se centra en escribir código limpio, mantenible y escalable, siempre buscando las 
-                mejores prácticas y tecnologías modernas. Me encanta aprender constantemente y compartir 
-                conocimiento con la comunidad de desarrolladores.
+                Soy una persona curiosa y con ganas de seguir creciendo. Me motiva aprender, compartir ideas y seguir especializándome en desarrollo web e ingeniería de software, explorando nuevas tecnologías que me inspiren a seguir creando.
               </p>
             </div>
 
             {/* Intereses */}
             <div className="pt-6">
-              <h3 className="text-xl mb-4 text-[#a78bfa]">Cuando no estoy programando...</h3>
+              <h3 className="text-xl mb-4 text-primary">Cuando no estoy programando...</h3>
               <div className="grid grid-cols-2 gap-4">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="flex items-center gap-3 p-4 bg-card border border-border border-outline hover:border-[#4522a0] rounded-lg"
+                  className="flex items-center gap-3 p-4 bg-card border border-border border-outline hover:border-primary-darker rounded-lg"
                 >
-                  <IconDeviceTvOld className="w-6 h-6 text-[#a78bfa]" />
+                  <IconDeviceTvOld className="w-6 h-6 text-primary" />
                   <span className="text-foreground">Películas y Series</span>
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="flex items-center gap-3 p-4 bg-card border border-border border-outline hover:border-[#4522a0] rounded-lg"
+                  className="flex items-center gap-3 p-4 bg-card border border-border border-outline hover:border-primary-darker rounded-lg"
                 >
-                  <IconHelmet className="w-6 h-6 text-[#a78bfa]" />
+                  <IconHelmet className="w-6 h-6 text-primary" />
                   <span className="text-foreground">Formula 1</span>
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="flex items-center gap-3 p-4 bg-card border border-border border-outline hover:border-[#4522a0] rounded-lg"
+                  className="bg-card border border-border border-outline hover:border-primary-darker rounded-lg"
                 >
-                  <IconCamera className="w-6 h-6 text-[#a78bfa]" />
-                  <span className="text-foreground">Fotografía</span>
+                  <a href="https://www.instagram.com/kilamperphoto/?hl=es" target="_blank" className="flex items-center gap-3 p-4">
+                    <IconCamera className="w-6 h-6 text-primary" />
+                    <span className="text-foreground">Fotografía</span>
+                  </a>
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="flex items-center gap-3 p-4 bg-card border border-border border-outline hover:border-[#4522a0] rounded-lg"
+                  className="flex items-center gap-3 p-4 bg-card border border-border border-outline hover:border-primary-darker rounded-lg"
                 >
-                  <IconDeviceGamepad className="w-6 h-6 text-[#a78bfa]" />
+                  <IconDeviceGamepad className="w-6 h-6 text-primary" />
                   <span className="text-foreground">Videojuegos</span>
                 </motion.div>
               </div>
