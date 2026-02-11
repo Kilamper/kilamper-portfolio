@@ -35,7 +35,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group bg-card border border-border rounded-2xl overflow-hidden border-outline hover:border-[#4522a0] transition-all duration-300"
+      className="group bg-card border border-border rounded-2xl overflow-hidden border-outline hover:border-primary-darker transition-all duration-300"
     >
       {/* Imagen del proyecto */}
       <div className="relative h-56 overflow-hidden">
@@ -66,7 +66,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         {/* Enlaces */}
         <div className="flex gap-3 pt-2">
             <button
-                className="flex border-[#4522a0] text-[#a78bfa] hover:bg-[#4522a0] hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
+                className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
                 onClick={() => window.open(project.githubUrl, '_blank')}
             >
                 <IconBrandGithub className="w-5 h-5" />
@@ -74,7 +74,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             </button>
             {project.demoUrl && (
             <button
-                className="flex border-[#4522a0] text-[#a78bfa] hover:bg-[#4522a0] hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
+                className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
                 onClick={() => window.open(project.demoUrl, '_blank')}
             >
                 <IconExternalLink className="w-5 h-5" />
@@ -82,7 +82,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             </button>)}
             {project.downloadUrl && (
             <button
-                className="flex border-[#4522a0] text-[#a78bfa] hover:bg-[#4522a0] hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
+                className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
                 onClick={() => window.open(project.downloadUrl, '_blank')}
             >
                 <IconDownload className="w-5 h-5" />
@@ -143,7 +143,7 @@ export function ProjectsSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl mb-4">
-            Mis <span className="text-[#a78bfa]">Proyectos</span>
+            Mis <span className="text-primary">Proyectos</span>
           </h2>
           <p className="text-muted-foreground text-lg">Algunos de los proyectos en los que he trabajado</p>
         </motion.div>
@@ -153,6 +153,23 @@ export function ProjectsSection() {
             <ProjectCard key={`${project.title}-${index}`} project={project} index={index} />
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mt-12"
+        >
+          <a
+            href="https://github.com/Kilamper?tab=repositories"
+            target="_blank"
+            className="inline-block text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300"
+          >
+            <i className="fas fa-chevron-down mr-2"></i>
+            Ver todos los proyectos
+          </a>
+        </motion.div>
       </div>
     </section>
   );

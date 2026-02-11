@@ -29,17 +29,15 @@ function TimelineItem({ experience, index }: { experience: Experience; index: nu
       className="relative pl-8 pb-12 last:pb-0"
     >
       {/* Línea vertical */}
-      <div className="absolute left-[11px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#4522a0] to-transparent" />
+      <div className="absolute left-[11px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary-darker to-transparent" />
       
       {/* Punto en la línea */}
-      <div className="absolute left-0 top-2 w-6 h-6 rounded-full bg-[#4522a0] border-4 border-background flex items-center justify-center">
-        <svg className="w-3 h-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M12 2l-10 10h3v10h14v-10h3z" />
-        </svg>
+      <div className="absolute left-0 top-2 w-6 h-6 rounded-full bg-background border-4 border-background flex items-center justify-center">
+        <i className="fas fa-circle-dot text-primary-darker" />
       </div>
 
       {/* Contenido */}
-      <div className="bg-card border border-border rounded-xl p-6 border-outline hover:border-[#4522a0] transition-colors duration-300">
+      <div className="bg-card border border-border rounded-xl p-6 border-outline hover:border-primary-darker transition-colors duration-300">
         <div className="flex gap-4">
           {/* Logo de la empresa */}
           <div className="flex-shrink-0">
@@ -52,9 +50,9 @@ function TimelineItem({ experience, index }: { experience: Experience; index: nu
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
               <h3 className="text-xl text-foreground">{experience.role}</h3>
-              <span className="text-sm text-[#a78bfa] whitespace-nowrap">{experience.period}</span>
+              <span className="text-sm text-primary whitespace-nowrap">{experience.period}</span>
             </div>
-            <p className="text-[#a78bfa] mb-2">{experience.company}</p>
+            <p className="text-primary mb-2">{experience.company}</p>
             <p className="text-muted-foreground">{experience.description}</p>
           </div>
         </div>
@@ -75,7 +73,7 @@ export function ExperienceTimeline() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl mb-4">
-            Experiencia <span className="text-[#a78bfa]">Laboral</span>
+            Experiencia <span className="text-primary">Laboral</span>
           </h2>
           <p className="text-muted-foreground text-lg">Mi trayectoria profesional en el desarrollo de software</p>
         </motion.div>
