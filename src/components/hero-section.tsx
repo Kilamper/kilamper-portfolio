@@ -1,18 +1,23 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 
 import {
-    IconMail
+  IconMail
 } from "@tabler/icons-react";
 
+import { ContactModal } from "./contact-modal";
+
 export const HeroSection = () => {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
   return (
     <section className="min-h-screen flex items-center justify-center px-6 py-20 relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, var(--primary) 1px, transparent 0)`,
-            backgroundSize: '40px 40px',
+          backgroundImage: `radial-gradient(circle at 2px 2px, var(--primary) 1px, transparent 0)`,
+          backgroundSize: '40px 40px',
         }} />
       </div>
 
@@ -20,15 +25,15 @@ export const HeroSection = () => {
         <div
           className="space-y-6"
         >
-            <h1
-                className="text-5xl lg:text-7xl tracking-tight"
-            >
-                <span className="text-foreground">Kilian Jesús</span>
-                <br />
-                <span className="text-primary">Armas Pérez</span>
-            </h1>
-        
-        <p
+          <h1
+            className="text-5xl lg:text-7xl tracking-tight"
+          >
+            <span className="text-foreground">Kilian Jesús</span>
+            <br />
+            <span className="text-primary">Armas Pérez</span>
+          </h1>
+
+          <p
             className="text-lg lg:text-xl text-muted-foreground max-w-xl"
           >
             Graduado en Ingeniería Informática | Desarrollador Web y Móvil
@@ -54,13 +59,13 @@ export const HeroSection = () => {
             >
               <i className="fab fa-github text-2xl w-6 h-6"></i>
             </a>
-            <a
-              href="mailto:kilanper.dev@outlook.es"
-              className="bg-primary-darker text-white px-5 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300 font-semibold text-center flex"
+            <button
+              onClick={() => setIsContactModalOpen(true)}
+              className="bg-primary-darker text-white px-5 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300 text-center flex items-center"
             >
               <IconMail className="mr-2 text-xl w-6 h-6" />
               Contáctame
-            </a>
+            </button>
           </div>
         </div>
 
@@ -68,15 +73,20 @@ export const HeroSection = () => {
         <div
           className="flex justify-center lg:justify-end"
         >
-            <Image
-                src="https://i.postimg.cc/Hsv4B8bR/profile-image-transparent.png"
-                alt="Kilian Jesús Armas Pérez"
-                width={500}
-                height={500}
-                className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[600px] object-cover shadow-2xl"
-            />
+          <Image
+            src="https://i.postimg.cc/Hsv4B8bR/profile-image-transparent.png"
+            alt="Kilian Jesús Armas Pérez"
+            width={500}
+            height={500}
+            className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[600px] object-cover shadow-2xl"
+          />
         </div>
       </div>
+
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </section>
   );
 }
