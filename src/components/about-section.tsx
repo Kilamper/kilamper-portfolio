@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 
 import {
-    IconDeviceTvOld,
-    IconDeviceGamepad,
-    IconCamera,
-    IconHelmet
+  IconDeviceTvOld,
+  IconDeviceGamepad,
+  IconCamera,
+  IconHelmet
 } from "@tabler/icons-react";
 
 import Image from "next/image";
@@ -86,9 +86,12 @@ export function AboutSection() {
                   whileHover={{ scale: 1.05 }}
                   className="bg-card border border-border border-outline hover:border-primary-darker rounded-lg"
                 >
-                  <a href="https://www.instagram.com/kilamperphoto/?hl=es" target="_blank" className="flex items-center gap-3 p-4">
-                    <IconCamera className="w-6 h-6 text-primary" />
-                    <span className="text-foreground">Fotografía</span>
+                  <a href="https://www.instagram.com/kilamperphoto/?hl=es" target="_blank" className="flex items-center gap-3 p-4 justify-between">
+                    <div className="flex items-center gap-3">
+                      <IconCamera className="w-6 h-6 text-primary" />
+                      <span className="text-foreground">Fotografía</span>
+                    </div>
+                    <i className="fa fa-external-link text-sm"></i>
                   </a>
                 </motion.div>
                 <motion.div
