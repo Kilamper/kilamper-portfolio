@@ -61,7 +61,7 @@ export const HeroSection = () => {
             </a>
             <button
               onClick={() => setIsContactModalOpen(true)}
-              className="bg-primary-darker text-white px-5 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300 text-center flex items-center"
+              className="bg-primary-darker text-white px-5 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300 text-center flex items-center cursor-pointer"
             >
               <IconMail className="mr-2 text-xl w-6 h-6" />
               Contáctame

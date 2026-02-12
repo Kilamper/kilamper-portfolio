@@ -4,16 +4,16 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 import {
-    IconCode,
-    IconDatabase,
-    IconDeviceMobile,
-    IconPalette,
-    IconUsers,
-    IconBulb,
-    IconCurrentLocation,
-    IconMessage,
-    IconClock,
-    IconBolt
+  IconCode,
+  IconDatabase,
+  IconDeviceMobile,
+  IconPalette,
+  IconUsers,
+  IconBulb,
+  IconCurrentLocation,
+  IconMessage,
+  IconClock,
+  IconBolt
 } from "@tabler/icons-react";
 
 interface Skill {
@@ -36,7 +36,7 @@ const hardSkills: Skill[] = [
   {
     name: "Desarrollo Móvil",
     icon: <IconDeviceMobile className="w-6 h-6" />,
-    description: "Android Studio, Kotlin, iOS/Android"
+    description: "Android Studio, Kotlin, Android"
   },
   {
     name: "UI/UX Design",
