@@ -1,13 +1,13 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 
 import {
-    IconBrandGithub,
-    IconExternalLink,
-    IconDownload
+  IconBrandGithub,
+  IconExternalLink,
+  IconDownload
 } from "@tabler/icons-react";
 
 import projectsData from "../../data/projects.json";
@@ -25,16 +25,31 @@ interface Project {
 const allProjects: Project[] = projectsData.projects;
 
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project, index, showAll }: { project: Project; index: number; showAll: boolean }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: false, margin: "-100px" });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      layout
+      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+        y: 0
+      }}
+      exit={{
+        opacity: 0,
+        scale: 0.8,
+        y: -20
+      }}
+      transition={{
+        duration: 0.4,
+        delay: showAll ? index * 0.08 : index * 0.1,
+        ease: [0.4, 0, 0.2, 1],
+        layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] }
+      }}
       className="group bg-card border border-border rounded-2xl overflow-hidden border-outline hover:border-primary-darker transition-all duration-300"
     >
       {/* Imagen del proyecto */}
@@ -65,28 +80,28 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
         {/* Enlaces */}
         <div className="flex gap-3 pt-2">
+          <button
+            className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
+            onClick={() => window.open(project.githubUrl, '_blank')}
+          >
+            <IconBrandGithub className="w-5 h-5" />
+            Código
+          </button>
+          {project.demoUrl && (
             <button
-                className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
-                onClick={() => window.open(project.githubUrl, '_blank')}
+              className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
+              onClick={() => window.open(project.demoUrl, '_blank')}
             >
-                <IconBrandGithub className="w-5 h-5" />
-                Código
-            </button>
-            {project.demoUrl && (
-            <button
-                className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
-                onClick={() => window.open(project.demoUrl, '_blank')}
-            >
-                <IconExternalLink className="w-5 h-5" />
-                Demo
+              <IconExternalLink className="w-5 h-5" />
+              Demo
             </button>)}
-            {project.downloadUrl && (
+          {project.downloadUrl && (
             <button
-                className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
-                onClick={() => window.open(project.downloadUrl, '_blank')}
+              className="flex border-primary-darker text-primary hover:bg-primary-darker hover:text-white rounded-md py-1 w-full mx-auto items-center justify-center gap-4 font-bold cursor-pointer"
+              onClick={() => window.open(project.downloadUrl, '_blank')}
             >
-                <IconDownload className="w-5 h-5" />
-                Descarga
+              <IconDownload className="w-5 h-5" />
+              Descarga
             </button>)}
         </div>
       </div>
@@ -97,29 +112,30 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 export function ProjectsSection() {
   const [selectedProjects, setSelectedProjects] = useState<Project[]>([]);
   const [isClient, setIsClient] = useState(false);
+  const [showAll, setShowAll] = useState(false);
 
   // Función para seleccionar proyectos: el primero + 2 aleatorios del resto
   const selectProjects = () => {
     if (allProjects.length === 0) return [];
-    
+
     // Siempre incluir el primer proyecto
     const firstProject = allProjects[0];
-    
+
     // Si solo hay un proyecto, devolver solo ese
     if (allProjects.length === 1) return [firstProject];
-    
+
     // Obtener el resto de proyectos (excluyendo el primero)
     const remainingProjects = allProjects.slice(1);
-    
+
     // Si hay 2 o menos proyectos restantes, tomar todos
     if (remainingProjects.length <= 2) {
       return [firstProject, ...remainingProjects];
     }
-    
+
     // Seleccionar 2 proyectos aleatorios del resto
     const shuffled = [...remainingProjects].sort(() => 0.5 - Math.random());
     const randomProjects = shuffled.slice(0, 2);
-    
+
     return [firstProject, ...randomProjects];
   };
 
@@ -130,7 +146,9 @@ export function ProjectsSection() {
   }, []);
 
   // Durante SSR, mostrar solo el primer proyecto para evitar hydration mismatch
-  const displayProjects = isClient ? selectedProjects : allProjects.slice(0, 1);
+  const displayProjects = isClient
+    ? (showAll ? allProjects : selectedProjects)
+    : allProjects.slice(0, 1);
 
   return (
     <section className="py-20 px-6 bg-secondary/15">
@@ -148,28 +166,39 @@ export function ProjectsSection() {
           <p className="text-muted-foreground text-lg">Algunos de los proyectos en los que he trabajado</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayProjects.map((project, index) => (
-            <ProjectCard key={`${project.title}-${index}`} project={project} index={index} />
-          ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mt-12"
-        >
-          <a
-            href="https://github.com/Kilamper?tab=repositories"
-            target="_blank"
-            className="inline-block text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300"
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            layout
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            <i className="fas fa-chevron-down mr-2"></i>
-            Ver todos los proyectos
-          </a>
-        </motion.div>
+            {displayProjects.map((project, index) => (
+              <ProjectCard
+                key={project.title}
+                project={project}
+                index={index}
+                showAll={showAll}
+              />
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        {allProjects.length > 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mt-12"
+          >
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 bg-primary-darker text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl hover:scale-[1.02]"
+            >
+              <i className={`fas fa-chevron-${showAll ? 'up' : 'down'}`}></i>
+              {showAll ? 'Ver menos proyectos' : 'Ver todos los proyectos'}
+            </button>
+          </motion.div>
+        )}
       </div>
     </section>
   );

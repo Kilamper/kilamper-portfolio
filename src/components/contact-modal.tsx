@@ -17,7 +17,7 @@ function SubmitButton() {
         <button
             type="submit"
             disabled={pending}
-            className="w-full bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full bg-primary-darker text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:scale-[1.02]"
         >
             {pending ? (
                 <>
@@ -69,22 +69,25 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-200"
             onClick={onClose}
         >
             <div
-                className="bg-background border border-border rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+                className="bg-background/95 backdrop-blur-sm border border-primary/20 rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-border">
-                    <h2 className="text-2xl font-bold text-foreground">Contáctame</h2>
+                <div className="flex items-center justify-between p-6 border-b border-primary/10">
+                    <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+                        <IconMail className="w-6 h-6 text-primary" />
+                        Contáctame
+                    </h2>
                     <button
                         onClick={onClose}
-                        className="p-2 hover:bg-muted rounded-lg transition-colors"
+                        className="p-2 hover:bg-primary/10 rounded-lg transition-all duration-200 hover:scale-110"
                         aria-label="Cerrar modal"
                     >
-                        <IconX className="w-5 h-5" />
+                        <IconX className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                     </button>
                 </div>
 
@@ -120,7 +123,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             required
                             minLength={2}
                             maxLength={100}
-                            className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-primary/40"
                             placeholder="Tu nombre"
                         />
                     </div>
@@ -139,7 +142,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             name="email"
                             required
                             maxLength={100}
-                            className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-primary/40"
                             placeholder="tu@email.com"
                         />
                     </div>
@@ -159,7 +162,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             minLength={10}
                             maxLength={1000}
                             rows={5}
-                            className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
+                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 resize-none hover:border-primary/40"
                             placeholder="Escribe tu mensaje aquí..."
                         />
                     </div>
@@ -167,9 +170,9 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                     {/* Status message */}
                     {state?.message && (
                         <div
-                            className={`p-4 rounded-lg ${state.success
-                                ? "bg-green-500/10 text-green-600 border border-green-500/20"
-                                : "bg-red-500/10 text-red-600 border border-red-500/20"
+                            className={`p-4 rounded-lg animate-in slide-in-from-top-2 duration-300 ${state.success
+                                    ? "bg-green-500/10 text-green-600 border border-green-500/30 shadow-lg shadow-green-500/10"
+                                    : "bg-red-500/10 text-red-600 border border-red-500/30 shadow-lg shadow-red-500/10"
                                 }`}
                         >
                             {state.message}
