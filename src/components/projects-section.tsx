@@ -20,6 +20,7 @@ interface Project {
   githubUrl: string;
   demoUrl: string;
   downloadUrl: string;
+  highlighted: boolean;
 }
 
 const allProjects: Project[] = projectsData.projects;
@@ -45,10 +46,10 @@ function ProjectCard({ project, index, showAll }: { project: Project; index: num
         y: -20
       }}
       transition={{
-        duration: 0.4,
-        delay: showAll ? index * 0.08 : index * 0.1,
-        ease: [0.4, 0, 0.2, 1],
-        layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] }
+        duration: 0.5,
+        delay: index * 0.05,
+        ease: "easeOut",
+        layout: { duration: 0.5, ease: "easeOut" }
       }}
       className="group bg-card border border-border rounded-2xl overflow-hidden border-outline hover:border-primary-darker transition-all duration-300"
     >
@@ -110,48 +111,53 @@ function ProjectCard({ project, index, showAll }: { project: Project; index: num
 }
 
 export function ProjectsSection() {
-  const [selectedProjects, setSelectedProjects] = useState<Project[]>([]);
+  const [arrangedProjects, setArrangedProjects] = useState<Project[]>([]);
   const [isClient, setIsClient] = useState(false);
   const [showAll, setShowAll] = useState(false);
 
-  // Función para seleccionar proyectos: el primero + 2 aleatorios del resto
-  const selectProjects = () => {
+  // Función para organizar los proyectos: el resaltado y luego el resto de forma aleatoria
+  const arrangeProjects = () => {
     if (allProjects.length === 0) return [];
 
-    // Siempre incluir el primer proyecto
-    const firstProject = allProjects[0];
+    // Incluir proyecto resaltado ("highlighted": true)
+    const firstProject = allProjects.find(p => p.highlighted) || allProjects[0];
 
     // Si solo hay un proyecto, devolver solo ese
     if (allProjects.length === 1) return [firstProject];
 
     // Obtener el resto de proyectos (excluyendo el primero)
-    const remainingProjects = allProjects.slice(1);
+    const remainingProjects = allProjects.filter(p => p.title !== firstProject.title);
 
-    // Si hay 2 o menos proyectos restantes, tomar todos
-    if (remainingProjects.length <= 2) {
-      return [firstProject, ...remainingProjects];
-    }
-
-    // Seleccionar 2 proyectos aleatorios del resto
+    // Desordenar todos los proyectos restantes de manera aleatoria
     const shuffled = [...remainingProjects].sort(() => 0.5 - Math.random());
-    const randomProjects = shuffled.slice(0, 2);
 
-    return [firstProject, ...randomProjects];
+    return [firstProject, ...shuffled];
   };
 
   useEffect(() => {
-    // Marcar que estamos en el cliente y seleccionar proyectos
+    // Marcar que estamos en el cliente y organizar proyectos
     setIsClient(true);
-    setSelectedProjects(selectProjects());
+    setArrangedProjects(arrangeProjects());
   }, []);
 
-  // Durante SSR, mostrar solo el primer proyecto para evitar hydration mismatch
+  // Durante SSR, mostrar solo el primer proyecto. En el cliente, mostrar 3 o todos dependiendo de showAll
   const displayProjects = isClient
-    ? (showAll ? allProjects : selectedProjects)
+    ? (showAll ? arrangedProjects : arrangedProjects.slice(0, 3))
     : allProjects.slice(0, 1);
 
+  const handleToggleProjects = () => {
+    if (showAll) {
+      const element = document.getElementById("projects");
+      if (element) {
+        // Offset scroll for header slightly or just standard scrollIntoView
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+    setShowAll(!showAll);
+  };
+
   return (
-    <section className="py-20 px-6 bg-secondary/15">
+    <section id="projects" className="py-20 px-6 bg-secondary/15">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -166,11 +172,11 @@ export function ProjectsSection() {
           <p className="text-muted-foreground text-lg">Algunos de los proyectos en los que he trabajado</p>
         </motion.div>
 
-        <AnimatePresence mode="popLayout">
-          <motion.div
-            layout
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
+        <motion.div
+          layout
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <AnimatePresence mode="popLayout">
             {displayProjects.map((project, index) => (
               <ProjectCard
                 key={project.title}
@@ -179,8 +185,8 @@ export function ProjectsSection() {
                 showAll={showAll}
               />
             ))}
-          </motion.div>
-        </AnimatePresence>
+          </AnimatePresence>
+        </motion.div>
 
         {allProjects.length > 3 && (
           <motion.div
@@ -191,7 +197,7 @@ export function ProjectsSection() {
             className="text-center mt-12"
           >
             <button
-              onClick={() => setShowAll(!showAll)}
+              onClick={handleToggleProjects}
               className="inline-flex items-center gap-2 bg-primary-darker text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl hover:scale-[1.02]"
             >
               <i className={`fas fa-chevron-${showAll ? 'up' : 'down'}`}></i>

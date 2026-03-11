@@ -37,13 +37,13 @@ export function AboutSection() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-darker to-primary rounded-3xl blur-3xl opacity-20" />
+            <div className="absolute inset-0 from-primary-darker to-primary" />
             <Image
-              src="https://i.postimg.cc/MHYWtH8x/about-image.png"
-              width={500}
-              height={500}
+              src="https://i.postimg.cc/yd5T0p3N/about-image.png"
+              width={1000}
+              height={1000}
               alt="About me"
-              className="relative w-full h-[500px] object-cover rounded-3xl shadow-2xl"
+              className="relative w-full object-cover"
             />
           </motion.div>
 
