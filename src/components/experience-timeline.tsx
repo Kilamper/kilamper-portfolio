@@ -30,7 +30,7 @@ function TimelineItem({ experience, index }: { experience: Experience; index: nu
     >
       {/* Línea vertical */}
       <div className="absolute left-[11px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary-darker to-transparent" />
-      
+
       {/* Punto en la línea */}
       <div className="absolute left-0 top-2 w-6 h-6 rounded-full bg-background border-4 border-background flex items-center justify-center">
         <i className="fas fa-circle-dot text-primary-darker" />
@@ -41,7 +41,7 @@ function TimelineItem({ experience, index }: { experience: Experience; index: nu
         <div className="flex gap-4">
           {/* Logo de la empresa */}
           <div className="flex-shrink-0">
-            <div className="w-16 h-16 rounded-lg overflow-hidden bg-white border border-border">
+            <div className="w-16 h-16 rounded-lg overflow-hidden bg-white">
               <Image src={experience.logo} alt={`${experience.company} logo`} width={64} height={64} className="object-cover" />
             </div>
           </div>

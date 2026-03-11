@@ -6,7 +6,7 @@ export function Footer() {
           Diseñado y desarrollado por Kilian Jesús Armas Pérez
         </p>
         <p className="text-sm text-muted-foreground mt-2">
-          © 2025 Todos los derechos reservados
+          © 2026 Todos los derechos reservados
         </p>
       </div>
     </footer>

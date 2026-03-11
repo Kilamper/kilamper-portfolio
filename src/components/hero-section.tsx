@@ -74,11 +74,11 @@ export const HeroSection = () => {
           className="flex justify-center lg:justify-end"
         >
           <Image
-            src="https://i.postimg.cc/Hsv4B8bR/profile-image-transparent.png"
+            src="https://i.postimg.cc/nzXyH7GH/profile-image-square.png"
             alt="Kilian Jesús Armas Pérez"
             width={500}
             height={500}
-            className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[500px] lg:h-[600px] object-cover shadow-2xl"
+            className="w-64 h-64 sm:w-80 sm:h-80 md:w-80 md:h-80 lg:w-[360px] lg:h-[400px] object-cover shadow-2xl rounded-2xl"
           />
         </div>
       </div>

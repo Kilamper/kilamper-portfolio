@@ -84,7 +84,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                     </h2>
                     <button
                         onClick={onClose}
-                        className="p-2 hover:bg-primary/10 rounded-lg transition-all duration-200 hover:scale-110"
+                        className="p-2 hover:bg-primary/10 rounded-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                         aria-label="Cerrar modal"
                     >
                         <IconX className="w-5 h-5 text-muted-foreground hover:text-foreground" />
@@ -171,8 +171,8 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                     {state?.message && (
                         <div
                             className={`p-4 rounded-lg animate-in slide-in-from-top-2 duration-300 ${state.success
-                                    ? "bg-green-500/10 text-green-600 border border-green-500/30 shadow-lg shadow-green-500/10"
-                                    : "bg-red-500/10 text-red-600 border border-red-500/30 shadow-lg shadow-red-500/10"
+                                ? "bg-green-500/10 text-green-600 border border-green-500/30 shadow-lg shadow-green-500/10"
+                                : "bg-red-500/10 text-red-600 border border-red-500/30 shadow-lg shadow-red-500/10"
                                 }`}
                         >
                             {state.message}
