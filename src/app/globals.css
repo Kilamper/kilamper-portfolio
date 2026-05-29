@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Default: Dark Mode */
+  --background: #030712;
+  --foreground: #f3f4f6;
+  --primary: #a78bfa;
+  --primary-dark: #8b5cf6;
+  --primary-darker: #6d28d9;
+  --primary-light: #ddd6fe;
+  --secondary: #94a3b8;
+  --accent: #c084fc;
+  --card-background: #0b0f19;
+  --outline: #1e293b;
+}
+
+html.light {
+  /* Light Mode Override */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --primary: #8b5cf6;
+  --primary-dark: #7c3aed;
+  --primary-darker: #5b21b6;
+  --primary-light: #ede9fe;
+  --secondary: #64748b;
+  --accent: #a855f7;
+  --card-background: #ffffff;
+  --outline: #e2e8f0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-darker: var(--primary-darker);
+  --color-primary-light: var(--primary-light);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-card: var(--card-background);
+  --color-outline: var(--outline);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-outfit: var(--font-outfit);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-outfit), Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Smooth transitions for theme switch */
+body, header, section, footer, div.bg-card, button, input, textarea, span, p, h1, h2, h3, h4, h5, h6, a {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+

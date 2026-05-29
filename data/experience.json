@@ -1,0 +1,18 @@
+{
+    "experience": [
+        {
+            "role": "Desarrollador Full Stack",
+            "company": "Grupo ARI",
+            "period": "Septiembre 2025 - Presente",
+            "description": "Desarrollo en Laravel de una plataforma de recursos empresariales (ERP).",
+            "logo": "https://i.postimg.cc/x8mwyPjR/grupoari-logo.jpg"
+        },
+        {
+            "role": "Becario en Desarrollo Web",
+            "company": "Grupo ARI",
+            "period": "Octubre 2024 - Enero 2025",
+            "description": "Prácticas en desarrollo web utilizando Laravel para mantener y mejorar aplicaciones internas.",
+            "logo": "https://i.postimg.cc/x8mwyPjR/grupoari-logo.jpg"
+        }
+    ]
+}
