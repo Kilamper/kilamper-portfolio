@@ -11,6 +11,7 @@ import {
 } from "@tabler/icons-react";
 
 import projectsData from "../../data/projects.json";
+import { useLanguage } from "./language-context";
 
 interface Project {
   title: string;
@@ -25,10 +26,27 @@ interface Project {
 
 const allProjects: Project[] = projectsData.projects;
 
-
 function ProjectCard({ project, index, showAll }: { project: Project; index: number; showAll: boolean }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, margin: "-100px" });
+  const { t } = useLanguage();
+
+  // Helper to map project description translations
+  const getProjectDescKey = (title: string) => {
+    switch (title.toLowerCase()) {
+      case "phobiaxperience": return "projects.desc.phobia";
+      case "mapa guaguas municipales": return "projects.desc.guaguas";
+      case "stellardive": return "projects.desc.stellar";
+      case "dbreeze": return "projects.desc.dbreeze";
+      case "textsnap": return "projects.desc.textsnap";
+      case "image viewer": return "projects.desc.imageviewer";
+      case "money calculator": return "projects.desc.money";
+      default: return "";
+    }
+  };
+
+  const descKey = getProjectDescKey(project.title);
+  const translatedDescription = descKey ? t(descKey) : project.description;
 
   return (
     <motion.div
@@ -68,7 +86,7 @@ function ProjectCard({ project, index, showAll }: { project: Project; index: num
       {/* Contenido */}
       <div className="p-6 space-y-4">
         <h3 className="text-2xl text-foreground">{project.title}</h3>
-        <p className="text-muted-foreground">{project.description}</p>
+        <p className="text-muted-foreground">{translatedDescription}</p>
 
         {/* Tecnologías */}
         <div className="flex flex-wrap gap-2">
@@ -86,7 +104,7 @@ function ProjectCard({ project, index, showAll }: { project: Project; index: num
             onClick={() => window.open(project.githubUrl, '_blank')}
           >
             <IconBrandGithub className="w-5 h-5" />
-            Código
+            {t("projects.btn.code")}
           </button>
           {project.demoUrl && (
             <button
@@ -94,7 +112,7 @@ function ProjectCard({ project, index, showAll }: { project: Project; index: num
               onClick={() => window.open(project.demoUrl, '_blank')}
             >
               <IconExternalLink className="w-5 h-5" />
-              Demo
+              {t("projects.btn.demo")}
             </button>)}
           {project.downloadUrl && (
             <button
@@ -102,7 +120,7 @@ function ProjectCard({ project, index, showAll }: { project: Project; index: num
               onClick={() => window.open(project.downloadUrl, '_blank')}
             >
               <IconDownload className="w-5 h-5" />
-              Descarga
+              {t("projects.btn.download")}
             </button>)}
         </div>
       </div>
@@ -156,6 +174,8 @@ export function ProjectsSection() {
     setShowAll(!showAll);
   };
 
+  const { t } = useLanguage();
+
   return (
     <section id="projects" className="py-20 px-6 bg-secondary/15">
       <div className="max-w-7xl mx-auto">
@@ -166,10 +186,10 @@ export function ProjectsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl mb-4">
-            Mis <span className="text-primary">Proyectos</span>
+          <h2 className="text-4xl lg:text-5xl mb-4 text-foreground">
+            {t("projects.title")} <span className="text-primary">{t("projects.title.highlight")}</span>
           </h2>
-          <p className="text-muted-foreground text-lg">Algunos de los proyectos en los que he trabajado</p>
+          <p className="text-muted-foreground text-lg">{t("projects.subtitle")}</p>
         </motion.div>
 
         <motion.div
@@ -201,7 +221,7 @@ export function ProjectsSection() {
               className="inline-flex items-center gap-2 bg-primary-darker text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl hover:scale-[1.02]"
             >
               <i className={`fas fa-chevron-${showAll ? 'up' : 'down'}`}></i>
-              {showAll ? 'Ver menos proyectos' : 'Ver todos los proyectos'}
+              {showAll ? t("projects.btn.less") : t("projects.btn.all")}
             </button>
           </motion.div>
         )}

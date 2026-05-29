@@ -4,6 +4,7 @@ import { useFormStatus } from "react-dom";
 import { sendContactEmail } from "@/app/actions";
 import { IconMail, IconX } from "@tabler/icons-react";
 import { useActionState, useEffect, useRef } from "react";
+import { useLanguage } from "./language-context";
 
 interface ContactModalProps {
     isOpen: boolean;
@@ -12,6 +13,7 @@ interface ContactModalProps {
 
 function SubmitButton() {
     const { pending } = useFormStatus();
+    const { t } = useLanguage();
 
     return (
         <button
@@ -22,12 +24,12 @@ function SubmitButton() {
             {pending ? (
                 <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Enviando...
+                    {t("contact.sending")}
                 </>
             ) : (
                 <>
                     <IconMail className="w-5 h-5" />
-                    Enviar Mensaje
+                    {t("contact.send")}
                 </>
             )}
         </button>
@@ -37,6 +39,7 @@ function SubmitButton() {
 export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     const [state, formAction] = useActionState(sendContactEmail, null);
     const formRef = useRef<HTMLFormElement>(null);
+    const { t } = useLanguage();
 
     // Close modal on ESC key
     useEffect(() => {
@@ -67,6 +70,18 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
 
     if (!isOpen) return null;
 
+    const getStatusTranslationKey = (message: string) => {
+        if (!message) return "";
+        if (message.includes("completa todos los campos")) return "contact.error.fields";
+        if (message.includes("email válido")) return "contact.error.email";
+        if (message.includes("al menos 2 caracteres")) return "contact.error.nameLength";
+        if (message.includes("al menos 10 caracteres")) return "contact.error.messageLength";
+        if (message.includes("Error al enviar") || message.includes("intenta de nuevo")) return "contact.error.send";
+        if (message.includes("enviado con éxito")) return "contact.success";
+        if (message.includes("Error inesperado")) return "contact.error.unexpected";
+        return "";
+    };
+
     return (
         <div
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-200"
@@ -80,7 +95,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                 <div className="flex items-center justify-between p-6 border-b border-primary/10">
                     <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
                         <IconMail className="w-6 h-6 text-primary" />
-                        Contáctame
+                        {t("contact.title")}
                     </h2>
                     <button
                         onClick={onClose}
@@ -114,7 +129,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             htmlFor="name"
                             className="block text-sm font-medium text-foreground mb-2"
                         >
-                            Nombre
+                            {t("contact.name")}
                         </label>
                         <input
                             type="text"
@@ -123,8 +138,8 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             required
                             minLength={2}
                             maxLength={100}
-                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-primary/40"
-                            placeholder="Tu nombre"
+                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-primary/40 text-foreground"
+                            placeholder={t("contact.placeholder.name")}
                         />
                     </div>
 
@@ -134,7 +149,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             htmlFor="email"
                             className="block text-sm font-medium text-foreground mb-2"
                         >
-                            Email
+                            {t("contact.email")}
                         </label>
                         <input
                             type="email"
@@ -142,8 +157,8 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             name="email"
                             required
                             maxLength={100}
-                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-primary/40"
-                            placeholder="tu@email.com"
+                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 hover:border-primary/40 text-foreground"
+                            placeholder={t("contact.placeholder.email")}
                         />
                     </div>
 
@@ -153,7 +168,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             htmlFor="message"
                             className="block text-sm font-medium text-foreground mb-2"
                         >
-                            Mensaje
+                            {t("contact.message")}
                         </label>
                         <textarea
                             id="message"
@@ -162,8 +177,8 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             minLength={10}
                             maxLength={1000}
                             rows={5}
-                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 resize-none hover:border-primary/40"
-                            placeholder="Escribe tu mensaje aquí..."
+                            className="w-full px-4 py-3 bg-background/50 border border-primary/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 resize-none hover:border-primary/40 text-foreground"
+                            placeholder={t("contact.placeholder.message")}
                         />
                     </div>
 
@@ -175,7 +190,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                                 : "bg-red-500/10 text-red-600 border border-red-500/30 shadow-lg shadow-red-500/10"
                                 }`}
                         >
-                            {state.message}
+                            {getStatusTranslationKey(state.message) ? t(getStatusTranslationKey(state.message)) : state.message}
                         </div>
                     )}
 

@@ -1,12 +1,34 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { IconHome, IconBriefcase, IconCode, IconUser, IconMail } from "@tabler/icons-react";
+import { 
+  IconHome, 
+  IconBriefcase, 
+  IconCode, 
+  IconUser, 
+  IconChevronDown 
+} from "@tabler/icons-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "./language-context";
+
+const languages = [
+  { code: "es", name: "Español", flag: "🇪🇸" },
+  { code: "en", name: "English", flag: "🇺🇸" },
+  { code: "fr", name: "Français", flag: "🇫🇷" },
+  { code: "it", name: "Italiano", flag: "🇮🇹" },
+  { code: "de", name: "Deutsch", flag: "🇩🇪" },
+  { code: "pt", name: "Português", flag: "🇵🇹" },
+  { code: "ja", name: "日本語", flag: "🇯🇵" },
+] as const;
 
 export const Header = () => {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    
+    const { language, setLanguage, t } = useLanguage();
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,12 +54,24 @@ export const Header = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [lastScrollY]);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId);
         if (element) {
             element.scrollIntoView({ behavior: "smooth" });
         }
     };
+
+    const currentLang = languages.find((l) => l.code === language) || languages[0];
 
     return (
         <header
@@ -58,7 +92,7 @@ export const Header = () => {
                                     className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
                                 >
                                     <IconHome className="w-5 h-5" />
-                                    <span>Inicio</span>
+                                    <span>{t("nav.home")}</span>
                                 </button>
                             </li>
                             <li>
@@ -67,7 +101,7 @@ export const Header = () => {
                                     className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
                                 >
                                     <IconBriefcase className="w-5 h-5" />
-                                    <span>Experiencia</span>
+                                    <span>{t("nav.experience")}</span>
                                 </button>
                             </li>
                             <li>
@@ -76,7 +110,7 @@ export const Header = () => {
                                     className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
                                 >
                                     <IconCode className="w-5 h-5" />
-                                    <span>Proyectos</span>
+                                    <span>{t("nav.projects")}</span>
                                 </button>
                             </li>
                             <li>
@@ -85,37 +119,56 @@ export const Header = () => {
                                     className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
                                 >
                                     <IconUser className="w-5 h-5" />
-                                    <span>Sobre mí</span>
+                                    <span>{t("nav.about")}</span>
                                 </button>
                             </li>
                         </ul>
 
-                        {/* Selector de idioma */}
-                        <div className="hidden md:block">
-                            <select
-                                className="bg-background border border-outline text-foreground text-sm rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer hover:border-primary transition-colors"
-                                defaultValue="es"
+                        {/* Selector de idioma premium responsivo */}
+                        <div className="relative" ref={dropdownRef}>
+                            <button
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-card border border-outline hover:border-primary/50 text-sm text-foreground transition-all duration-300 shadow-md cursor-pointer select-none font-medium active:scale-95"
                             >
-                                <option value="es">🇪🇸 Español</option>
-                                <option value="en">🇺🇸 English</option>
-                            </select>
-                        </div>
-
-                        {/* Menú móvil (hamburguesa) - simplificado */}
-                        <div className="md:hidden">
-                            <button className="text-foreground hover:text-primary transition-colors">
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
+                                <span>{currentLang.flag}</span>
+                                <span className="hidden sm:inline">{currentLang.name}</span>
+                                <IconChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-300 ${isDropdownOpen ? "rotate-180 text-primary" : ""}`} />
                             </button>
+
+                            <AnimatePresence>
+                                {isDropdownOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        transition={{ duration: 0.15, ease: "easeOut" }}
+                                        className="absolute right-0 mt-2 py-1.5 w-40 bg-card/95 backdrop-blur-md border border-outline rounded-xl shadow-2xl z-50 overflow-hidden"
+                                    >
+                                        <div className="max-h-60 overflow-y-auto">
+                                            {languages.map((lang) => (
+                                                <button
+                                                    key={lang.code}
+                                                    onClick={() => {
+                                                        setLanguage(lang.code);
+                                                        setIsDropdownOpen(false);
+                                                    }}
+                                                    className={`flex items-center justify-between w-full px-4 py-2 text-sm text-left hover:bg-primary-darker/15 hover:text-primary transition-all duration-200 cursor-pointer ${
+                                                        language === lang.code ? "bg-primary-darker/10 text-primary font-semibold" : "text-foreground"
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center gap-2.5">
+                                                        <span>{lang.flag}</span>
+                                                        <span>{lang.name}</span>
+                                                    </div>
+                                                    {language === lang.code && (
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                                    )}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
                     </nav>
                 </div>

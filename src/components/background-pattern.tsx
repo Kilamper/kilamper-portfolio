@@ -381,6 +381,8 @@ export function BackgroundPattern() {
 
       {/* Líneas decorativas sutiles */}
       <motion.div
+        initial={{ opacity: 0 }}
+        style={{ opacity: 0 }}
         animate={{
           scaleX: [1, 1.2, 1],
           opacity: [0.05, 0.1, 0.05],
@@ -394,6 +396,8 @@ export function BackgroundPattern() {
       />
 
       <motion.div
+        initial={{ opacity: 0 }}
+        style={{ opacity: 0 }}
         animate={{
           scaleX: [1, 1.2, 1],
           opacity: [0.05, 0.1, 0.05],

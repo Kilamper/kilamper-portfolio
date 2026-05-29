@@ -15,6 +15,7 @@ import {
   IconClock,
   IconBolt
 } from "@tabler/icons-react";
+import { useLanguage } from "./language-context";
 
 interface Skill {
   name: string;
@@ -49,7 +50,7 @@ const softSkills: Skill[] = [
   {
     name: "Trabajo en Equipo",
     icon: <IconUsers className="w-6 h-6" />,
-    description: "Colaboración efectiva y liderazgo"
+    description: "Desempeño eficaz en entornos colaborativos"
   },
   {
     name: "Pensamiento Creativo",
@@ -81,6 +82,28 @@ const softSkills: Skill[] = [
 function SkillCard({ skill, index, delay }: { skill: Skill; index: number; delay: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { t } = useLanguage();
+
+  // Helper to map skill translations
+  const getSkillKeys = (name: string) => {
+    switch (name) {
+      case "Desarrollo Frontend": return { name: "skills.frontend", desc: "skills.frontend.desc" };
+      case "Desarrollo Backend": return { name: "skills.backend", desc: "skills.backend.desc" };
+      case "Desarrollo Móvil": return { name: "skills.mobile", desc: "skills.mobile.desc" };
+      case "UI/UX Design": return { name: "skills.design", desc: "skills.design.desc" };
+      case "Trabajo en Equipo": return { name: "skills.teamwork", desc: "skills.teamwork.desc" };
+      case "Pensamiento Creativo": return { name: "skills.creative", desc: "skills.creative.desc" };
+      case "Orientación a Objetivos": return { name: "skills.goals", desc: "skills.goals.desc" };
+      case "Comunicación": return { name: "skills.communication", desc: "skills.communication.desc" };
+      case "Gestión del Tiempo": return { name: "skills.time", desc: "skills.time.desc" };
+      case "Adaptabilidad": return { name: "skills.adaptability", desc: "skills.adaptability.desc" };
+      default: return null;
+    }
+  };
+
+  const keys = getSkillKeys(skill.name);
+  const translatedName = keys ? t(keys.name) : skill.name;
+  const translatedDesc = keys ? t(keys.desc) : skill.description;
 
   return (
     <motion.div
@@ -95,8 +118,8 @@ function SkillCard({ skill, index, delay }: { skill: Skill; index: number; delay
           {skill.icon}
         </div>
         <div className="flex-1">
-          <h3 className="text-lg mb-2 text-foreground">{skill.name}</h3>
-          <p className="text-sm text-gray-400">{skill.description}</p>
+          <h3 className="text-lg mb-2 text-foreground">{translatedName}</h3>
+          <p className="text-sm text-gray-400">{translatedDesc}</p>
         </div>
       </div>
     </motion.div>
@@ -104,6 +127,7 @@ function SkillCard({ skill, index, delay }: { skill: Skill; index: number; delay
 }
 
 export function SkillsSection() {
+  const { t } = useLanguage();
   return (
     <section className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
@@ -114,10 +138,10 @@ export function SkillsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl mb-4">
-            Habilidades & <span className="text-primary">Competencias</span>
+          <h2 className="text-4xl lg:text-5xl mb-4 text-foreground">
+            {t("skills.title")} <span className="text-primary">{t("skills.title.highlight")}</span>
           </h2>
-          <p className="text-muted-foreground text-lg">Combinación de habilidades técnicas y personales</p>
+          <p className="text-muted-foreground text-lg">{t("skills.subtitle")}</p>
         </motion.div>
 
         {/* Hard Skills */}
@@ -128,7 +152,7 @@ export function SkillsSection() {
             viewport={{ once: true }}
             className="text-2xl lg:text-3xl mb-8 text-primary"
           >
-            Hard Skills
+            {t("skills.hard")}
           </motion.h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {hardSkills.map((skill, index) => (
@@ -145,7 +169,7 @@ export function SkillsSection() {
             viewport={{ once: true }}
             className="text-2xl lg:text-3xl mb-8 text-primary"
           >
-            Soft Skills
+            {t("skills.soft")}
           </motion.h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {softSkills.map((skill, index) => (

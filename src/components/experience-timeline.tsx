@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Image from "next/image";
 
 import experienceData from "../../data/experience.json";
+import { useLanguage } from "./language-context";
 
 interface Experience {
   role: string;
@@ -19,6 +20,13 @@ const experiences: Experience[] = experienceData.experience;
 function TimelineItem({ experience, index }: { experience: Experience; index: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t } = useLanguage();
+
+  // Translate dynamically based on roles in JSON
+  const isFullStack = experience.role === "Desarrollador Full Stack" || experience.role.includes("Full Stack");
+  const translatedRole = isFullStack ? t("exp.role.fullstack") : t("exp.role.intern");
+  const translatedPeriod = isFullStack ? t("exp.period.fullstack") : t("exp.period.intern");
+  const translatedDesc = isFullStack ? t("exp.desc.fullstack") : t("exp.desc.intern");
 
   return (
     <motion.div
@@ -49,11 +57,11 @@ function TimelineItem({ experience, index }: { experience: Experience; index: nu
           {/* Información */}
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-              <h3 className="text-xl text-foreground">{experience.role}</h3>
-              <span className="text-sm text-primary whitespace-nowrap">{experience.period}</span>
+              <h3 className="text-xl text-foreground">{translatedRole}</h3>
+              <span className="text-sm text-primary whitespace-nowrap">{translatedPeriod}</span>
             </div>
             <p className="text-primary mb-2">{experience.company}</p>
-            <p className="text-muted-foreground">{experience.description}</p>
+            <p className="text-muted-foreground">{translatedDesc}</p>
           </div>
         </div>
       </div>
@@ -62,6 +70,7 @@ function TimelineItem({ experience, index }: { experience: Experience; index: nu
 }
 
 export function ExperienceTimeline() {
+  const { t } = useLanguage();
   return (
     <section className="py-20 px-6">
       <div className="max-w-4xl mx-auto">
@@ -72,10 +81,10 @@ export function ExperienceTimeline() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl mb-4">
-            Experiencia <span className="text-primary">Laboral</span>
+          <h2 className="text-4xl lg:text-5xl mb-4 text-foreground">
+            {t("exp.title")} <span className="text-primary">{t("exp.title.highlight")}</span>
           </h2>
-          <p className="text-muted-foreground text-lg">Mi trayectoria profesional en el desarrollo de software</p>
+          <p className="text-muted-foreground text-lg">{t("exp.subtitle")}</p>
         </motion.div>
 
         <div className="relative">
