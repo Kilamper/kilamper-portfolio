@@ -1,31 +1,31 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Outfit } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono, Outfit } from 'next/font/google'
+import './globals.css'
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
 
 const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-});
+  variable: '--font-outfit',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
-  title: "Kilamper Portfolio",
-  description: "Portfolio de Kilian Jesús Armas Pérez",
-};
+  title: 'Kilian Armas Pérez | Computer Engineer & Full Stack Developer',
+  description: 'Portfolio of Kilian Jesús Armas Pérez',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -34,22 +34,20 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const theme = localStorage.getItem('theme');
-                  if (theme === 'light') {
-                    document.documentElement.classList.add('light');
-                  } else {
-                    document.documentElement.classList.remove('light');
-                  }
-                } catch (e) {}
-              })()
-            `,
-          }}
-        />
+        <script>
+          {`
+            (function() {
+              try {
+                const theme = localStorage.getItem('theme')
+                if (theme === 'light') {
+                  document.documentElement.classList.add('light')
+                } else {
+                  document.documentElement.classList.remove('light')
+                }
+              } catch (e) {}
+            })()
+          `}
+        </script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased`}
@@ -57,5 +55,5 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  );
+  )
 }
