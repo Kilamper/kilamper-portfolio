@@ -53,7 +53,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Render a minimal premium loader while the initial dictionary is loading to prevent layout flashes
   if (loading && Object.keys(translations).length === 0) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] text-foreground flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="w-8 h-8 border-3 border-primary/20 border-t-primary rounded-full animate-spin" />
       </div>
     );
